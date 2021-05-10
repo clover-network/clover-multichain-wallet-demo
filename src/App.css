@@ -1,0 +1,170 @@
+.wrapper {
+  background: url("./images/bg_img.svg") no-repeat center;
+  background-size: cover;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.content {
+  width: 930px;
+  margin: 0 auto;
+  padding: 100px 280px 100px 230px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header > div {
+  display: flex;
+  align-items: center;
+}
+
+.header > h3 {
+  font-family: Optima;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 44px;
+  line-height: 53px;
+  text-align: center;
+  color: #000000;
+  margin: 15px 0 65px;
+}
+
+.center {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.center-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.center-left-row {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 44px;
+}
+
+.connect-btn {
+  background: #FFFFFF;
+  border: 1px solid #27A577;
+  box-sizing: border-box;
+  border-radius: 60px;
+  color: #27A577;
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 15px;
+  padding: 10px 20px;
+  width: fit-content;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.center-right {
+  min-width: 463px;
+  height: 519px;
+  margin-left: 20px;
+  position: relative;
+}
+
+.center-right-bg {
+  width: 345px;
+  height: 202px;
+  background: url("./images/content_bg.svg");
+  background-size: contain;
+  position: absolute;
+  right: -212px;
+  top: -50px;
+  z-index: 1;
+}
+
+.center-right-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  z-index: 2;
+  background-color: #FAFDFE;
+  border-radius: 8px;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 35px 0;
+}
+
+.sign-btn {
+  background: #27a577;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 58px;
+  color: #fff;
+  text-align: center;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.sign-btn:hover, .sign-btn:active {
+  background: #27a577;
+  opacity: 0.8;
+}
+
+.sign-btn[disabled] {
+  cursor: auto;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.custom-network {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding: 30px 20px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin: 20px 15px 30px;
+}
+
+.input-group > span {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+  display: inline-block;
+  width: 120px;
+}
+
+.input-group > input {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+  line-height: 30px;
+  width: 222px;
+  background-color: #FAFDFE;
+  text-indent: 15px;
+}
+
