@@ -75,7 +75,7 @@
 .center-right-bg {
   width: 345px;
   height: 202px;
-  background: url("./images/content_bg.svg");
+  background: url("./images/content_bg.svg") no-repeat;
   background-size: contain;
   position: absolute;
   right: -212px;
