@@ -2,11 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee0e53e1-5636-4adf-aa9b-130968891d5f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/bg_img.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/content_bg.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/content_bg.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/connectWallet/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/connectWallet/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/connectWallet/utils.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/state/api/actions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/state/api/hooks.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/state/api/reducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/state/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/state/token/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/state/wallet/actions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/state/wallet/hooks.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/state/wallet/reducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/state/wallet/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/bigNum.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/bigNum.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/AccountUtils.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/apiUtils.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/tokenUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,12 +44,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/contants" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
@@ -38,8 +60,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/images" />
-      <recent name="$PROJECT_DIR$/public" />
+      <recent name="$PROJECT_DIR$/src/contants" />
+      <recent name="$PROJECT_DIR$/src/components" />
+      <recent name="$PROJECT_DIR$/src/components/connectWallet" />
+      <recent name="$PROJECT_DIR$/src/state" />
+      <recent name="$PROJECT_DIR$/src/state/wallet" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

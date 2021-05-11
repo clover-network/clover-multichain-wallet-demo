@@ -50,21 +50,6 @@
   margin-top: 44px;
 }
 
-.connect-btn {
-  background: #FFFFFF;
-  border: 1px solid #27A577;
-  box-sizing: border-box;
-  border-radius: 60px;
-  color: #27A577;
-  font-family: Roboto;
-  font-weight: 500;
-  font-size: 15px;
-  padding: 10px 20px;
-  width: fit-content;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
 .center-right {
   min-width: 463px;
   height: 519px;

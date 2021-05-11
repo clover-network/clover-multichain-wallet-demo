@@ -1,7 +1,16 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './App.css';
 import {Text} from "rebass";
 import Logo from './images/logo.svg'
+import { initApi } from './utils/apiUtils'
+import { subscribeToEvents } from './utils/tokenUtils'
+import { loadAccount } from './utils/AccountUtils';
+import { useWrongNetworkUpdate } from './state/wallet/hooks'
+import { useApiConnectedUpdate, useApiInited, useApiInitedUpdate } from './state/api/hooks'
+import { useAccountInfo, useAccountInfoUpdate } from './state/wallet/hooks'
+import ConnectWallet from './components/connectWallet'
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const InputGroup = (props) => {
     return (
@@ -13,11 +22,77 @@ const InputGroup = (props) => {
 }
 
 function App() {
-  const [networkName, setNetworkName] = useState('')
-  const [networkUrl, setNetworkUrl] = useState('')
-  const [chainId, setChainId] = useState('')
+    const [networkName, setNetworkName] = useState('')
+    const [networkUrl, setNetworkUrl] = useState('')
+    const [chainId, setChainId] = useState('')
+    const [open, setOpen] = useState(false)
+    const [status, setStatus] = useState('')
+    const [message, setMessage] = useState('')
+
+    const apiInited = useApiInited()
+    const apiInitedUpdate = useApiInitedUpdate()
+    const updateApiConnected = useApiConnectedUpdate()
+    const accountInfo = useAccountInfo();
+
+    const onApiInited = useCallback(() => {
+        apiInitedUpdate(true)
+        updateApiConnected(true)
+    }, [apiInitedUpdate, updateApiConnected])
+
+    const updateAccountInfo = useAccountInfoUpdate()
+    const updateWrongNetwork = useWrongNetworkUpdate()
+
+    const initPolkaApi = useCallback(async () => {
+        await initApi(onApiInited, () => {updateApiConnected(true)}, () => {updateApiConnected(false)})
+    }, [onApiInited, updateApiConnected])
+
+    useEffect(() => {
+        initPolkaApi()
+    }, [initPolkaApi])
+
+    useEffect(() => {
+        if (!apiInited) {
+            return
+        }
+        subscribeToEvents(apiInited, accountInfo, updateAccountInfo).catch((e) => {console.log(e)})
+    }, [apiInited, accountInfo, updateAccountInfo])
+
+
+    const Alert = (props) => {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
+
+    const handleConnectWallet = useCallback(async () => {
+        if (!apiInited) {
+            initPolkaApi()
+        }
+        const result = await loadAccount(updateAccountInfo, updateWrongNetwork);
+        if (result) {
+            setOpen(true)
+            setStatus(result.status)
+            setMessage(result.message)
+        }
+
+    }, [apiInited, initPolkaApi, updateAccountInfo, updateWrongNetwork]);
+
+    useEffect(() => {
+        if (!apiInited) {
+            return
+        }
+        handleConnectWallet()
+    }, [handleConnectWallet])
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
   return (
     <div className="wrapper">
+        <Snackbar open={open} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={5000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={status}>
+                {message}
+            </Alert>
+        </Snackbar>
       <div className='content'>
           <div className="header">
               <div>
@@ -37,7 +112,7 @@ function App() {
                       <Text fontSize={40} color="#27A577" fontFamily="Optima" fontWeight="bold" minWidth={70}>01.</Text>
                       <div>
                           <Text fontSize={18} color="#1D2D31" lineHeight="150%" fontWeight="300">first connect to Clover Wallet. You can install it to chrome browser <span style={{color: '#27A577'}}>here</span></Text>
-                          <div className="connect-btn">Connect Clover Wallet</div>
+                          <ConnectWallet handleConnectWallet={handleConnectWallet} />
                       </div>
                   </div>
                   <div className="center-left-row">
