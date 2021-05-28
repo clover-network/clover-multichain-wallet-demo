@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { createAccountInfo } from '../../utils/AccountUtils';
-import { accountInfo, wrongNetwork, funds, leasePeriods, ownedIds, auctionInfos } from './actions';
+import { accountInfo, wrongNetwork, funds, leasePeriods, ownedIds, auctionInfos, cloverAccounts } from './actions';
 import { AccountInfo } from './types';
 
 export interface WalletState {
@@ -10,6 +10,7 @@ export interface WalletState {
   leasePeriods: any,
   ownedIds: any,
   auctionInfos: any,
+  cloverAccounts: any
 }
 
 const initialState: WalletState = {
@@ -19,6 +20,7 @@ const initialState: WalletState = {
   leasePeriods: '',
   ownedIds: [],
   auctionInfos: {},
+  cloverAccounts: [],
 }
 
 export default createReducer(initialState, builder =>
@@ -46,5 +48,9 @@ export default createReducer(initialState, builder =>
     .addCase(auctionInfos, (state, action) => {
       const {auctionInfos} = action.payload
       state.auctionInfos = auctionInfos
+    })
+    .addCase(cloverAccounts, (state, action) => {
+      const { cloverAccounts } = action.payload
+      state.cloverAccounts = cloverAccounts
     })
 );
