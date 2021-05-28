@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^12.1.10",
     "@types/lodash": "^4.14.168",
     "@types/rebass": "^4.0.7",
+    "bignumber.js": "^9.0.1",
     "lodash": "^4.17.21",
     "notistack": "^1.0.7",
     "react": "^17.0.2",
@@ -29,7 +30,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=6001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

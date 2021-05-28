@@ -21,7 +21,8 @@ export const initApi = async (onInited: () => void, onConnected: () => void, onD
     return
   }
 
-  const wsProvider = new WsProvider('wss://api-ivy-elastic.clover.finance');
+  // const wsProvider = new WsProvider('wss://api.clover.finance/');
+  const wsProvider = new WsProvider('wss://rpc.polkadot.io');
 
   const theApi = await ApiPromise.create({
     provider: wsProvider,

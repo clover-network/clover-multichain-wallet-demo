@@ -7,6 +7,7 @@ import keyring from '@polkadot/ui-keyring';
 import _ from 'lodash'
 
 export const originName = 'clv';
+let keyringInit = false
 declare global {
   interface Window {
       send:any;
@@ -52,7 +53,7 @@ function isCloverWallet(injectedWallet: any) {
 
 function invalidWalletNetwork(allAccounts: InjectedAccountWithMeta[]): boolean {
   // @ts-ignore
-  keyring.loadAll({ ss58Format: 42, type: 'ed25519' }, allAccounts);
+  // keyring.loadAll({ ss58Format: 42, type: 'ed25519' }, allAccounts);
   const accounts = keyring.getAccounts();
   const addrs = _.map(accounts, (acc) => acc.address)
   return _.some(allAccounts, (acc) => !_.includes(addrs, acc.address))
@@ -60,7 +61,6 @@ function invalidWalletNetwork(allAccounts: InjectedAccountWithMeta[]): boolean {
 
 export async function loadAccount(updateAccountInfo: (info: AccountInfo) => void, updateWrongNetwork: (wrong: boolean) => void): Promise<Object> {
   const injected = await web3Enable(originName);
-  window.send && window.send("log", injected)
   if (!injected.length) {
     return {
       message: "Not found wallet",
@@ -77,7 +77,18 @@ export async function loadAccount(updateAccountInfo: (info: AccountInfo) => void
   }
 
   const allAccounts = await web3Accounts();
-  window.send && window.send("log", allAccounts)
+
+  if (!keyringInit) {
+    keyring.loadAll({ ss58Format: 42, type: 'sr25519' }, allAccounts);
+    keyringInit = true
+  }
+  
+
+  const decodeAddr = keyring.decodeAddress(allAccounts[0].address)
+  const ksmAddr = keyring.encodeAddress(decodeAddr, 2)
+
+  console.log('ksm address:', ksmAddr)
+
   if (!allAccounts.length) {
     return {
       message: "Add account",
@@ -103,7 +114,7 @@ export async function loadAccount(updateAccountInfo: (info: AccountInfo) => void
 
   const info = createAccountInfo(allAccounts[0].address,
     allAccounts[0].meta?.name ?? '',
-    '' + 'Clover Wallet',
+    'Clover Wallet',
     tokenAmounts ?? [])
   updateAccountInfo(info)
   return {
