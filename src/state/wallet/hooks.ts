@@ -1,7 +1,7 @@
 import { AppState } from '../index'
 import { useSelector, useDispatch } from 'react-redux'
 import { useCallback } from 'react'
-import { accountInfo, wrongNetwork, funds, leasePeriods, ownedIds, auctionInfos} from './actions'
+import { accountInfo, wrongNetwork, funds, leasePeriods, ownedIds, auctionInfos, cloverAccounts } from './actions'
 import { AccountInfo } from './types'
 
 export function useAccountInfo(): AccountInfo {
@@ -58,3 +58,11 @@ export function useAuctionInfoUpdate(): (auctionInfo: any) => void {
   return useCallback((auctionInfo: any) => dispatch(auctionInfos({auctionInfos: auctionInfo})), [dispatch])
 }
 
+export function useCloverAccounts(): any {
+  return useSelector((state: AppState) => state.wallet.cloverAccounts)
+}
+
+export function useCloverAccountsUpdate(): (cloverAccount: any) => void {
+  const dispatch = useDispatch()
+  return useCallback((cloverAccount: any) => dispatch(cloverAccounts({cloverAccounts: cloverAccount})), [dispatch])
+}

@@ -2,15 +2,23 @@ import React, { useCallback, useEffect, useState } from 'react'
 import './App.css';
 import {Text} from "rebass";
 import Logo from './images/logo.svg'
-import { initApi } from './utils/apiUtils'
+import { initApi, api } from './utils/apiUtils'
 import { subscribeToEvents } from './utils/tokenUtils'
 import { loadAccount } from './utils/AccountUtils';
-import { useWrongNetworkUpdate } from './state/wallet/hooks'
+import { useCloverAccounts, useCloverAccountsUpdate, useWrongNetworkUpdate } from './state/wallet/hooks'
 import { useApiConnectedUpdate, useApiInited, useApiInitedUpdate } from './state/api/hooks'
 import { useAccountInfo, useAccountInfoUpdate } from './state/wallet/hooks'
 import ConnectWallet from './components/connectWallet'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { web3FromAddress } from '@polkadot/extension-dapp';
+
+const transactionTemplate = {
+    nonce: '0x05',
+    gasPrice: '0x3e95ba80', // could set by user
+    gas: '0x5208', // could set by user
+    value: '0x0',
+};
 
 const InputGroup = (props) => {
     return (
@@ -22,12 +30,16 @@ const InputGroup = (props) => {
 }
 
 function App() {
-    const [networkName, setNetworkName] = useState('')
-    const [networkUrl, setNetworkUrl] = useState('')
-    const [chainId, setChainId] = useState('')
+    const [networkName, setNetworkName] = useState('BSC TEST NET')
+    const [networkUrl, setNetworkUrl] = useState('https://data-seed-prebsc-2-s3.binance.org:8545/')
+    const [chainId, setChainId] = useState('0x61')
+    const [tokenSymbol, setTokenSymbol] = useState('bnb')
     const [open, setOpen] = useState(false)
     const [status, setStatus] = useState('')
     const [message, setMessage] = useState('')
+
+    const cloverAccounts = useCloverAccounts()
+    const cloverAccountsUpdate = useCloverAccountsUpdate()
 
     const apiInited = useApiInited()
     const apiInitedUpdate = useApiInitedUpdate()
@@ -73,17 +85,128 @@ function App() {
             setMessage(result.message)
         }
 
-    }, [apiInited, initPolkaApi, updateAccountInfo, updateWrongNetwork]);
+        if (window.clover !== undefined) { 
+            const handleAccountsChanged = async (accounts) => {
+                const clvAccounts = await window.clover.request({ method: 'clover_getAccounts' })
+                cloverAccountsUpdate(clvAccounts)
+                console.log('account changed:', clvAccounts);
+            }
+    
+            window.clover.on('accountsChanged', handleAccountsChanged);
+    
+            const accounts = await window.clover.request({ method: 'eth_requestAccounts' })
+            console.log('accounts:', accounts)
+
+            const supportedChainIds = await window.clover.request({ method: 'clover_supportedChainIds', params: ['5GxD1wUbUHjtBSCxUL94nN8mYpnfCMMohdVRWGp6r7MfTrCj'] })
+            console.log('chain ids:', supportedChainIds)
+
+            const clvAccounts = await window.clover.request({ method: 'clover_getAccounts' })
+            console.log('accounts:', clvAccounts)
+
+            cloverAccountsUpdate(clvAccounts)
+        }
+
+    }, [apiInited, initPolkaApi, updateAccountInfo, updateWrongNetwork, cloverAccountsUpdate]);
 
     useEffect(() => {
         if (!apiInited) {
             return
         }
         handleConnectWallet()
-    }, [handleConnectWallet])
+    }, [handleConnectWallet, apiInited])
 
     const handleClose = () => {
         setOpen(false)
+    }
+
+    const handleEth = useCallback(async () => {
+        const chainId = '0x3'
+        const currentEvmAccount = cloverAccounts[0][1]
+        
+        await window.clover.request({
+          method: 'eth_sendTransaction',
+          params: [{...transactionTemplate, chainId: chainId, from: currentEvmAccount, to: currentEvmAccount}],
+        });
+    }, [cloverAccounts])
+
+    const handleBsc = useCallback(async () => {
+        const chainId = '0x61'
+        const currentEvmAccount = cloverAccounts[0][1]
+        
+        await window.clover.request({
+          method: 'eth_sendTransaction',
+          params: [{...transactionTemplate, chainId: chainId, from: currentEvmAccount, to: currentEvmAccount}],
+        });
+    }, [cloverAccounts])
+
+    const handleClover = useCallback(async () => {
+        const currentClvAccount = cloverAccounts[0][0]
+        const injected = await web3FromAddress(currentClvAccount)
+        api.getApi().setSigner(injected.signer)
+        const unsub = await api.getApi().tx.balances
+                            .transfer(currentClvAccount, 0)
+                            .signAndSend(currentClvAccount, (result) => {
+                                console.log(`Current status is ${result.status}`);
+                            
+                                if (result.status.isInBlock) {
+                                  console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
+                                } else if (result.status.isFinalized) {
+                                  console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
+                                  unsub();
+                                }
+                              })
+    }, [cloverAccounts])
+
+    const gotoWebstore = () => {
+        window.open('https://chrome.google.com/webstore/detail/clover-wallet/nhnkbkgjikgcigadomkphalanndcapjk', '_blank')
+    }
+
+    const connectToCustomNetwork = async () => {
+        if (window.clover !== undefined) {
+            const provider = window.clover
+            try {
+                await provider.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [
+                        {
+                            chainId: chainId,
+                            chainName: networkName,
+                            nativeCurrency: {
+                                // name: 'BNB',
+                                symbol: tokenSymbol,
+                                decimals: 18,
+                            },
+                            rpcUrls: [networkUrl],
+                            // blockExplorerUrls: ['https://bscscan.com/'],
+                        },
+                    ],
+                })
+                return true
+            } catch (error) {
+                console.error(error)
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+
+    const handleCustomTrans = useCallback(async () => {
+        const cId = chainId
+        const currentEvmAccount = cloverAccounts[0][1]
+        
+        await window.clover.request({
+          method: 'eth_sendTransaction',
+          params: [{...transactionTemplate, chainId: cId, from: currentEvmAccount, to: currentEvmAccount}],
+        });
+    }, [chainId, cloverAccounts])
+
+    const handleCustom = async () => {
+        const connect = await connectToCustomNetwork()
+
+        if (connect) {
+            setTimeout(() => handleCustomTrans(), 1000)
+        }
     }
 
   return (
@@ -111,7 +234,7 @@ function App() {
                   <div className="center-left-row">
                       <Text fontSize={40} color="#27A577" fontFamily="Optima" fontWeight="bold" minWidth={70}>01.</Text>
                       <div>
-                          <Text fontSize={18} color="#1D2D31" lineHeight="150%" fontWeight="300">first connect to Clover Wallet. You can install it to chrome browser <span style={{color: '#27A577'}}>here</span></Text>
+                          <Text fontSize={18} color="#1D2D31" lineHeight="150%" fontWeight="300">first connect to Clover Wallet. You can install it to chrome browser <span style={{color: '#27A577', cursor: 'pointer'}} onClick={gotoWebstore}>here</span></Text>
                           <ConnectWallet handleConnectWallet={handleConnectWallet} />
                       </div>
                   </div>
@@ -125,9 +248,9 @@ function App() {
                   <div className="center-right-content">
                       <Text fontSize={26} textAlign="center" color="#000000" fontWeight="bold">Demo Dapp</Text>
                       <div className="btn-group">
-                          <button className="sign-btn">Sign with Ethereum</button>
-                          <button className="sign-btn">Sign with BSC</button>
-                          <button className="sign-btn">Sign with Polkadot</button>
+                          <button className="sign-btn" onClick={() => handleEth()}>Sign with Ethereum</button>
+                          <button className="sign-btn" onClick={() => handleBsc()}>Sign with BSC</button>
+                          <button className="sign-btn" onClick={() => handleClover()}>Sign with Polkadot</button>
                       </div>
                       <div className="custom-network">
                           <Text fontSize={26} fontFamily="Optima" marginLeft="15px">Custom network</Text>
@@ -152,7 +275,14 @@ function App() {
                                   setChainId(val)
                               }}
                           />
-                          <button className="sign-btn" disabled>Sign with Custom Network</button>
+                          <InputGroup
+                              lable="Token Symbol"
+                              value={tokenSymbol}
+                              handleInputChange={(val) => {
+                                  setTokenSymbol(val)
+                              }}
+                          />
+                          <button className="sign-btn" onClick={handleCustom}>Sign with Custom Network</button>
                       </div>
                   </div>
               </div>
