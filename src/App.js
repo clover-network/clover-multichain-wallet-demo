@@ -12,6 +12,12 @@ import ConnectWallet from './components/connectWallet'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { web3FromAddress } from '@polkadot/extension-dapp';
+import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
+import {
+    NoEthereumProviderError,
+    UserRejectedRequestError as UserRejectedRequestErrorInjected,
+  } from '@web3-react/injected-connector'
+import { injectedConnector } from './utils/web3ReactUtils'
 
 const transactionTemplate = {
     nonce: '0x05',
@@ -36,6 +42,7 @@ function App() {
     const [status, setStatus] = useState('')
     const [message, setMessage] = useState('')
 
+    const { activate, deactivate, library, account, error } = useWeb3React()
     const cloverAccounts = useCloverAccounts()
     const cloverAccountsUpdate = useCloverAccountsUpdate()
 
@@ -67,6 +74,19 @@ function App() {
         subscribeToEvents(apiInited, accountInfo, updateAccountInfo).catch((e) => {console.log(e)})
     }, [apiInited, accountInfo, updateAccountInfo])
 
+    useEffect(() => {
+        const getAccounts = async () => {
+            if (account !== undefined) {
+                const clvAccounts = await library.request({ method: 'clover_getAccounts' })
+                console.log('accounts:', clvAccounts)
+    
+                cloverAccountsUpdate(clvAccounts)
+            }
+        }
+        getAccounts()
+        
+        console.log(library)
+    }, [account, error, library, cloverAccountsUpdate])
 
     const Alert = (props) => {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -83,28 +103,35 @@ function App() {
             setMessage(result.message)
         }
 
-        if (window.clover !== undefined) { 
-            const handleAccountsChanged = async (accounts) => {
-                const clvAccounts = await window.clover.request({ method: 'clover_getAccounts' })
-                cloverAccountsUpdate(clvAccounts)
-                console.log('account changed:', clvAccounts);
-            }
-    
-            window.clover.on('accountsChanged', handleAccountsChanged);
-    
-            const accounts = await window.clover.request({ method: 'eth_requestAccounts' })
-            console.log('accounts:', accounts)
-
-            const supportedChainIds = await window.clover.request({ method: 'clover_supportedChainIds', params: ['5GxD1wUbUHjtBSCxUL94nN8mYpnfCMMohdVRWGp6r7MfTrCj'] })
-            console.log('chain ids:', supportedChainIds)
-
-            const clvAccounts = await window.clover.request({ method: 'clover_getAccounts' })
-            console.log('accounts:', clvAccounts)
-
-            cloverAccountsUpdate(clvAccounts)
-        }
-
+        loginWithWeb3React()
     }, [apiInited, initPolkaApi, updateAccountInfo, updateWrongNetwork, cloverAccountsUpdate]);
+
+    const setToast = (status, message) => {
+        setOpen(true)
+        setStatus(status)
+        setMessage(message)
+    }
+    const loginWithWeb3React = () => {
+        if (injectedConnector) {
+            activate(injectedConnector, async (error) => {
+                if (error instanceof UnsupportedChainIdError) {
+                setToast('error', 'Unsupported chain id')
+                } else {
+                if (error instanceof NoEthereumProviderError) {
+                    setToast('error', 'No provider was found')
+                } else if (
+                    error instanceof UserRejectedRequestErrorInjected
+                ) {
+                    setToast('error', 'Please authorize to access your account')
+                } else {
+                    setToast('error', error.message)
+                }
+                }
+            })
+        } else {
+            setToast('error', 'The connector config is wrong')
+        }
+    }
 
     useEffect(() => {
         if (!apiInited) {
@@ -121,7 +148,7 @@ function App() {
         const chainId = '0x3'
         const currentEvmAccount = cloverAccounts[0][1]
         
-        await window.clover.request({
+        await library.request({
           method: 'eth_sendTransaction',
           params: [{...transactionTemplate, chainId: chainId, from: currentEvmAccount, to: currentEvmAccount}],
         });
