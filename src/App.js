@@ -15,8 +15,6 @@ import { web3FromAddress } from '@polkadot/extension-dapp';
 
 const transactionTemplate = {
     nonce: '0x05',
-    gasPrice: '0x3e95ba80', // could set by user
-    gas: '0x5208', // could set by user
     value: '0x0',
 };
 
