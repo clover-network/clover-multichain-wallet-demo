@@ -2,30 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee0e53e1-5636-4adf-aa9b-130968891d5f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/connectWallet/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/connectWallet/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/connectWallet/utils.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state/api/actions.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state/api/hooks.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state/api/reducer.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state/token/types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state/wallet/actions.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state/wallet/hooks.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state/wallet/reducer.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state/wallet/types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/bigNum.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/bigNum.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/AccountUtils.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/apiUtils.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/tokenUtils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +11,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="6wsyeaz0" />
   </component>
   <component name="ProjectId" id="1sKKK7Xrv9RUTe7j6lSXW3aofp8" />
   <component name="ProjectViewState">
@@ -44,7 +24,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/contants" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -76,6 +57,7 @@
       <option name="presentableId" value="Default" />
       <updated>1620615774737</updated>
       <workItem from="1620615777555" duration="8122000" />
+      <workItem from="1624358498315" duration="16000" />
     </task>
     <servers />
   </component>

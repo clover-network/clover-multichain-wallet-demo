@@ -238,7 +238,7 @@ function App() {
                   </div>
                   <div className="center-left-row">
                       <Text fontSize={40} color="#27A577" fontFamily="Optima" fontWeight="bold" minWidth={70}>02.</Text>
-                      <Text fontSize={18} color="#1D2D31" lineHeight="150%" fontWeight="300">then you can try to interact with different blockchains without switching network in the demo dapp on the rightside</Text>
+                      <Text fontSize={18} color="#1D2D31" lineHeight="150%" fontWeight="300">then you can try to interact with different blockchains without switching network in the demo dapp on the right side</Text>
                   </div>
               </div>
               <div className="center-right">
