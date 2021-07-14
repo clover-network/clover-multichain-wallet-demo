@@ -28,9 +28,9 @@ const InputGroup = (props) => {
 }
 
 function App() {
-    const [networkName, setNetworkName] = useState('BSC TEST NET')
-    const [networkUrl, setNetworkUrl] = useState('https://data-seed-prebsc-2-s3.binance.org:8545/')
-    const [chainId, setChainId] = useState('0x61')
+    const [networkName, setNetworkName] = useState('BSC MAIN NET')
+    const [networkUrl, setNetworkUrl] = useState('https://binance.ankr.com/')
+    const [chainId, setChainId] = useState('0x38')
     const [tokenSymbol, setTokenSymbol] = useState('bnb')
     const [open, setOpen] = useState(false)
     const [status, setStatus] = useState('')
@@ -95,11 +95,11 @@ function App() {
             const accounts = await window.clover.request({ method: 'eth_requestAccounts' })
             console.log('accounts:', accounts)
 
-            const supportedChainIds = await window.clover.request({ method: 'clover_supportedChainIds', params: ['5GxD1wUbUHjtBSCxUL94nN8mYpnfCMMohdVRWGp6r7MfTrCj'] })
-            console.log('chain ids:', supportedChainIds)
-
             const clvAccounts = await window.clover.request({ method: 'clover_getAccounts' })
-            console.log('accounts:', clvAccounts)
+            console.log('clv accounts:', clvAccounts)
+
+            const supportedChainIds = await window.clover.request({ method: 'clover_supportedChainIds', params: [clvAccounts[0][0]] })
+            console.log('chain ids:', supportedChainIds)
 
             cloverAccountsUpdate(clvAccounts)
         }
@@ -118,7 +118,7 @@ function App() {
     }
 
     const handleEth = useCallback(async () => {
-        const chainId = '0x3'
+        const chainId = '0x1'
         const currentEvmAccount = cloverAccounts[0][1]
         
         await window.clover.request({
@@ -128,7 +128,7 @@ function App() {
     }, [cloverAccounts])
 
     const handleBsc = useCallback(async () => {
-        const chainId = '0x61'
+        const chainId = '0x38'
         const currentEvmAccount = cloverAccounts[0][1]
         
         await window.clover.request({
