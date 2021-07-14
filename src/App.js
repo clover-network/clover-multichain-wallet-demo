@@ -101,6 +101,9 @@ function App() {
             const supportedChainIds = await window.clover.request({ method: 'clover_supportedChainIds', params: [clvAccounts[0][0]] })
             console.log('chain ids:', supportedChainIds)
 
+            const ret = await window.clover.request({ method: 'clover_changeEthereumChain', params: ['0x1'] })
+            console.log('switch chain:', ret)
+
             cloverAccountsUpdate(clvAccounts)
         }
 
