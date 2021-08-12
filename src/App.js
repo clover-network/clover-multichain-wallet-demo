@@ -17,7 +17,7 @@ import {
     NoEthereumProviderError,
     UserRejectedRequestError as UserRejectedRequestErrorInjected,
   } from '@web3-react/injected-connector'
-import { injectedConnector } from './utils/web3ReactUtils'
+import { cloverConnector } from './utils/web3ReactUtils'
 
 const transactionTemplate = {
     nonce: '0x05',
@@ -112,8 +112,8 @@ function App() {
         setMessage(message)
     }
     const loginWithWeb3React = () => {
-        if (injectedConnector) {
-            activate(injectedConnector, async (error) => {
+        if (cloverConnector) {
+            activate(cloverConnector, async (error) => {
                 if (error instanceof UnsupportedChainIdError) {
                 setToast('error', 'Unsupported chain id')
                 } else {
