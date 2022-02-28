@@ -91,6 +91,11 @@ function App() {
             }
     
             window.clover.on('accountsChanged', handleAccountsChanged);
+
+            const handleChainChanged = async (chainId) => {
+              console.log('chain changed', chainId)
+            }
+            window.clover.on('chainChanged', handleChainChanged)
     
             const accounts = await window.clover.request({ method: 'eth_requestAccounts' })
             console.log('accounts:', accounts)
