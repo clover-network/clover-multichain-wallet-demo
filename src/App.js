@@ -73,15 +73,15 @@ function App() {
     }
 
     const handleConnectWallet = useCallback(async () => {
-        if (!apiInited) {
-            initPolkaApi()
-        }
-        const result = await loadAccount(updateAccountInfo, updateWrongNetwork);
-        if (result) {
-            setOpen(true)
-            setStatus(result.status)
-            setMessage(result.message)
-        }
+        // if (!apiInited) {
+        //     initPolkaApi()
+        // }
+        // const result = await loadAccount(updateAccountInfo, updateWrongNetwork);
+        // if (result) {
+        //     setOpen(true)
+        //     setStatus(result.status)
+        //     setMessage(result.message)
+        // }
 
         if (window.clover !== undefined) { 
             const handleAccountsChanged = async (accounts) => {
@@ -112,14 +112,14 @@ function App() {
             cloverAccountsUpdate(clvAccounts)
         }
 
-    }, [apiInited, initPolkaApi, updateAccountInfo, updateWrongNetwork, cloverAccountsUpdate]);
+    }, [cloverAccountsUpdate]);
 
     useEffect(() => {
-        if (!apiInited) {
-            return
-        }
+        // if (!apiInited) {
+        //     return
+        // }
         handleConnectWallet()
-    }, [handleConnectWallet, apiInited])
+    }, [handleConnectWallet])
 
     const handleClose = () => {
         setOpen(false)
